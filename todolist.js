@@ -1,39 +1,41 @@
-var contador = 0;
+let counter = 0;
 
-function agregarTarea(){
-    var tareaNueva = document.getElementById("newTaskText").value;
-    var contenedor = document.getElementById("tasksContainer");
+const addTask = () => {
+    const newTask = document.getElementById('newTaskText');
+    const container = document.getElementById('tasksContainer');
     
-    if(tareaNueva != ""){
-        var divTask = document.createElement("div");
-        divTask.innerHTML = "<button onclick='eliminar(" + contador + ")'>X</button><span>" + tareaNueva + 
-                            "</span>" + "<input type='checkbox' onchange='cambiarEstado(" + contador + 
-                            ",this)'>";
+    if(newTask.value !== ''){
+        const divTask = document.createElement('div');
+        divTask.innerHTML = `
+            <button onClick="remove(${counter})">X</button>
+            <span>${newTask.value}</span>
+            <input type="checkbox" onChange="changeState(${counter}, this)">
+        `;
 
-        contenedor.appendChild(divTask);
-        contenedor.appendChild(document.createElement("br"));
+        container.appendChild(divTask);
+        container.appendChild(document.createElement("br"));
 
-        contador++;
+        counter++;
+        newTask.value = '';
     }
-    
-}
+};
 
-function cambiarEstado(fila, check){
-    var contenedor = document.getElementById("tasksContainer");
-    var divs = contenedor.getElementsByTagName("div");
-    var divElegido = divs[fila];
-    var spanTexto = divElegido.getElementsByTagName("span")[0];
+const changeState = (row, check) => {
+    const container = document.getElementById('tasksContainer');
+    const divs = container.getElementsByTagName('div');
+    var divSelected = divs[row];
+    var spanText = divSelected.getElementsByTagName('span')[0];
 
-    if(check.checked){
-        spanTexto.classList.add("hecho");
-    }else{
-        spanTexto.classList.remove("hecho");
+    if(check.checked) {
+        spanText.classList.add('done');
+    } else {
+        spanText.classList.remove('done');
     }
-}
+};
 
-function eliminar(fila){
-    var contenedor = document.getElementById("tasksContainer");
-    var divs = contenedor.getElementsByTagName("div");
-    var divElegido = divs[fila];
-    divElegido.classList.add("eliminado");
-}
+const remove = row => {
+    const container = document.getElementById('tasksContainer');
+    const divs = container.getElementsByTagName('div');
+    const divSelected = divs[row];
+    divSelected.classList.add('removed');
+};
